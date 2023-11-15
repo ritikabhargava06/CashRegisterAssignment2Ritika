@@ -8,11 +8,16 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.zip.Inflater;
 
 public class ItemsBaseAdapter extends BaseAdapter {
 
     ArrayList<Item> itemsList;
+    ArrayList<PurchaseHistory> historyList;
+
+    public ItemsBaseAdapter(ArrayList<PurchaseHistory> historyList, Context context, boolean flag) {
+        this.historyList = historyList;
+        this.context = context;
+    }
 
     public ItemsBaseAdapter(ArrayList<Item> itemsList, Context context) {
         this.itemsList = itemsList;
@@ -23,12 +28,23 @@ public class ItemsBaseAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return itemsList.size();
+        int count=0;
+        if( context.getClass() == MainActivity.class){
+            count= itemsList.size();
+        }else if (context.getClass() == HistoryListActivity.class){
+            count = historyList.size();
+        }
+        return count;
     }
 
     @Override
     public Object getItem(int position) {
-        return itemsList.get(position);
+        if( context.getClass() == MainActivity.class){
+            return itemsList.get(position);
+        }else if (context.getClass() == HistoryListActivity.class){
+            return historyList.get(position);
+        }else return null;
+
     }
 
     @Override
@@ -41,12 +57,18 @@ public class ItemsBaseAdapter extends BaseAdapter {
 
         View itemRowView = LayoutInflater.from(context).inflate(R.layout.items_row,parent,false);
         TextView itemName = itemRowView.findViewById(R.id.itemRowName);
-        TextView itemPrice = itemRowView.findViewById(R.id.itemRowPrice);
-        TextView itemQuantity = itemRowView.findViewById(R.id.itemRowQuantity);
-        itemName.setText(itemsList.get(position).getItemName());
-        itemPrice.setText(String.valueOf(itemsList.get(position).getItemPrice()));
-        itemQuantity.setText(String.valueOf(itemsList.get(position).getItemQuantity()));
+        TextView itemPriceOrQuantity = itemRowView.findViewById(R.id.itemRowPriceORQuantity);
+        TextView itemQuantityOrTotal = itemRowView.findViewById(R.id.itemRowQuantityOrTotal);
 
+       if( context.getClass() == MainActivity.class){
+           itemName.setText(itemsList.get(position).getItemName());
+           itemPriceOrQuantity.setText(String.valueOf(itemsList.get(position).getItemPrice()));
+           itemQuantityOrTotal.setText(String.valueOf(itemsList.get(position).getItemQuantity()));
+       }else if (context.getClass() == HistoryListActivity.class){
+           itemName.setText(historyList.get(position).getPurchasedItemName());
+           itemPriceOrQuantity.setText(String.valueOf(historyList.get(position).getPurchasedItemQuantity()));
+           itemQuantityOrTotal.setText(String.valueOf(historyList.get(position).getPurchasedTotalPrice()));
+       }
         return itemRowView;
     }
 }

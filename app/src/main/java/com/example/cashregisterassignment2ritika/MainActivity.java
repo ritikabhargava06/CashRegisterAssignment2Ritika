@@ -3,6 +3,8 @@ package com.example.cashregisterassignment2ritika;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -10,6 +12,10 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 ListView itemsListview;
@@ -28,6 +34,7 @@ Button b9;
 Button b0;
 Button bClear;
 Button bBuy;
+Button bManager;
 int selectedItemIndex;
 boolean isItemSelected = false;
 ItemsBaseAdapter baseAdapter;
@@ -52,6 +59,7 @@ ItemsBaseAdapter baseAdapter;
         b0 = findViewById(R.id.button0);
         bClear = findViewById(R.id.buttonClear);
         bBuy = findViewById(R.id.buyButton);
+        bManager = findViewById(R.id.managerButton);
 
         if (savedInstanceState!=null){
             if(savedInstanceState.getString("selectedItemName")!=null){
@@ -88,6 +96,7 @@ ItemsBaseAdapter baseAdapter;
         b0.setOnClickListener(this);
         bClear.setOnClickListener(this);
         bBuy.setOnClickListener(this);
+        bManager.setOnClickListener(this);
     }
 
     @Override
@@ -150,6 +159,10 @@ ItemsBaseAdapter baseAdapter;
                     }
                 }
                 break;
+            case R.id.managerButton:
+                Intent managerIntent = new Intent(MainActivity.this,ManagerActivity.class);
+                startActivity(managerIntent);
+                break;
         }
     }
 
@@ -183,8 +196,18 @@ ItemsBaseAdapter baseAdapter;
         }
     }
     private void purchase(int purchaseQuantity) {
+        String itemName = ((MyApp)getApplication()).getItemsArrayList().get(selectedItemIndex).getItemName();
+        double totalPrice = Double.parseDouble(totalAmountTextView.getText().toString());
         int newQuantity = ((MyApp)getApplication()).getItemsArrayList().get(selectedItemIndex).getItemQuantity()-purchaseQuantity;
         ((MyApp)getApplication()).getItemsArrayList().get(selectedItemIndex).setItemQuantity(newQuantity);
         baseAdapter.notifyDataSetChanged();
+        createHistoryObject(itemName, purchaseQuantity, totalPrice);
+    }
+
+    private void createHistoryObject(String itemName, int purchasedQuantity, double totalPrice) {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        PurchaseHistory history = new PurchaseHistory(itemName, purchasedQuantity,totalPrice,dtf.format(now));
+        ((MyApp)getApplication()).addToPurchaseHistoryList(history);
     }
 }

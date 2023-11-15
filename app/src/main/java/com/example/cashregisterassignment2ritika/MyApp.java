@@ -6,7 +6,12 @@ import java.util.ArrayList;
 
 public class MyApp extends Application {
 
-    ArrayList<Item> itemsArrayList;
+    private ArrayList<Item> itemsArrayList;
+    private ArrayList<PurchaseHistory> purchaseHistoryArrayList = new ArrayList<>();
+
+    public ArrayList<PurchaseHistory> getPurchaseHistoryArrayList() {
+        return purchaseHistoryArrayList;
+    }
 
     public ArrayList<Item> getItemsArrayList() {
         if(itemsArrayList==null){
@@ -16,5 +21,9 @@ public class MyApp extends Application {
             itemsArrayList.add(new Item("Hats",30,5.99));
         }
         return itemsArrayList;
+    }
+
+    public void addToPurchaseHistoryList(PurchaseHistory historyObject){
+        purchaseHistoryArrayList.add(historyObject);
     }
 }

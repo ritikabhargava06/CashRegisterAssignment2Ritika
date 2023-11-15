@@ -11,15 +11,15 @@
         android:text="item name"
         android:textSize="@dimen/textview_fontSize"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/itemRowPrice"
+        app:layout_constraintBottom_toTopOf="@id/itemRowPriceORQuantity"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintVertical_chainStyle="spread"
-        app:layout_constraintEnd_toStartOf="@id/itemRowQuantity"
+        app:layout_constraintEnd_toStartOf="@id/itemRowQuantityOrTotal"
         app:layout_constraintHorizontal_chainStyle="spread"
         android:layout_marginStart="@dimen/margin_20"
         />
     <TextView
-        android:id="@+id/itemRowPrice"
+        android:id="@+id/itemRowPriceORQuantity"
         android:layout_width="@dimen/match_constraint"
         android:layout_height="wrap_content"
         android:text="item price"
@@ -27,12 +27,12 @@
         app:layout_constraintTop_toBottomOf="@id/itemRowName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/itemRowQuantity"
+        app:layout_constraintEnd_toStartOf="@id/itemRowQuantityOrTotal"
         app:layout_constraintVertical_chainStyle="spread"
         android:layout_marginStart="@dimen/margin_20"
         />
     <TextView
-        android:id="@+id/itemRowQuantity"
+        android:id="@+id/itemRowQuantityOrTotal"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/match_constraint"
         android:text="item quantity"
