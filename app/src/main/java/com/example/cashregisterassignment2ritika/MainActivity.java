@@ -1,17 +1,15 @@
 package com.example.cashregisterassignment2ritika;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import java.util.ArrayList;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 ListView itemsListview;
@@ -29,10 +27,10 @@ Button b8;
 Button b9;
 Button b0;
 Button bClear;
+Button bBuy;
 int selectedItemIndex;
 boolean isItemSelected = false;
-
-ArrayList<Item> itemsArrayList;
+ItemsBaseAdapter baseAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -53,14 +51,17 @@ ArrayList<Item> itemsArrayList;
         b9 = findViewById(R.id.button9);
         b0 = findViewById(R.id.button0);
         bClear = findViewById(R.id.buttonClear);
+        bBuy = findViewById(R.id.buyButton);
 
         if (savedInstanceState!=null){
-            if(savedInstanceState.getString("selectedItemName")!=null)
+            if(savedInstanceState.getString("selectedItemName")!=null){
                 selectedItemNameTextView.setText(savedInstanceState.getString("selectedItemName"));
+                selectedQuantityTextView.setText(savedInstanceState.getString("selectedQuantity"));
+                totalAmountTextView.setText(savedInstanceState.getString("totalAmount"));
+            }
         }
-        itemsArrayList = ((MyApp)getApplication()).getItemsArrayList();
 
-        ItemsBaseAdapter baseAdapter = new ItemsBaseAdapter(itemsArrayList,this);
+        baseAdapter = new ItemsBaseAdapter(((MyApp)getApplication()).getItemsArrayList(),this);
         itemsListview.setAdapter(baseAdapter);
 
         itemsListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -68,7 +69,7 @@ ArrayList<Item> itemsArrayList;
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 isItemSelected=true;
                 selectedItemIndex = position;
-                selectedItemNameTextView.setText(itemsArrayList.get(position).getItemName());
+                selectedItemNameTextView.setText(((MyApp)getApplication()).getItemsArrayList().get(position).getItemName());
                 if (!selectedQuantityTextView.getText().toString().isEmpty()) {
                     setTotalAmount();
                 }
@@ -86,6 +87,7 @@ ArrayList<Item> itemsArrayList;
         b9.setOnClickListener(this);
         b0.setOnClickListener(this);
         bClear.setOnClickListener(this);
+        bBuy.setOnClickListener(this);
     }
 
     @Override
@@ -135,13 +137,36 @@ ArrayList<Item> itemsArrayList;
                 selectedQuantityTextView.setText("");
                 totalAmountTextView.setText("");
                 break;
+            case R.id.buyButton:
+                if (selectedItemNameTextView.getText().toString().isEmpty()||selectedQuantityTextView.getText().toString().isEmpty()){
+                    Toast.makeText(this,"All fields are required",Toast.LENGTH_LONG).show();
+                }else{
+                    int q = Integer.parseInt(selectedQuantityTextView.getText().toString());
+                    if (q>((MyApp)getApplication()).getItemsArrayList().get(selectedItemIndex).getItemQuantity()){
+                        Toast.makeText(this,"No enough quantity in Stock!!",Toast.LENGTH_LONG).show();
+                    }else{
+                        purchase(q);
+                        showThankYouAlert();
+                    }
+                }
+                break;
         }
+    }
+
+    private void showThankYouAlert() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Thank You for your purchase");
+        builder.setMessage("Your purchase is "+selectedQuantityTextView.getText()+" "+selectedItemNameTextView.getText()+" for "+totalAmountTextView.getText());
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString("selectedItemName",selectedItemNameTextView.getText().toString());
+        outState.putString("selectedQuantity",selectedQuantityTextView.getText().toString());
+        outState.putString("totalAmount",totalAmountTextView.getText().toString());
     }
 
     public void setQuantityTextView(Button pressedButton){
@@ -152,9 +177,14 @@ ArrayList<Item> itemsArrayList;
 
     public void setTotalAmount(){
         if (isItemSelected){
-            double itemPrice = itemsArrayList.get(selectedItemIndex).getItemPrice();
+            double itemPrice = ((MyApp)getApplication()).getItemsArrayList().get(selectedItemIndex).getItemPrice();
             double total = Integer.parseInt(selectedQuantityTextView.getText().toString()) * itemPrice;
-            totalAmountTextView.setText(String.valueOf(total));
+            totalAmountTextView.setText(String.format("%.2f",total));
         }
+    }
+    private void purchase(int purchaseQuantity) {
+        int newQuantity = ((MyApp)getApplication()).getItemsArrayList().get(selectedItemIndex).getItemQuantity()-purchaseQuantity;
+        ((MyApp)getApplication()).getItemsArrayList().get(selectedItemIndex).setItemQuantity(newQuantity);
+        baseAdapter.notifyDataSetChanged();
     }
 }

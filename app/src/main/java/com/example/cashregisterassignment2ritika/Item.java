@@ -23,4 +23,7 @@ public class Item {
     public double getItemPrice() {
         return itemPrice;
     }
+    public void setItemQuantity(int itemQuantity) {
+        this.itemQuantity = itemQuantity;
+    }
 }
