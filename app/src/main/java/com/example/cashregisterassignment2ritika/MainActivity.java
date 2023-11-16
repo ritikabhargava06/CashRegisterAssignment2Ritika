@@ -62,11 +62,9 @@ ItemsBaseAdapter baseAdapter;
         bManager = findViewById(R.id.managerButton);
 
         if (savedInstanceState!=null){
-            if(savedInstanceState.getString("selectedItemName")!=null){
-                selectedItemNameTextView.setText(savedInstanceState.getString("selectedItemName"));
-                selectedQuantityTextView.setText(savedInstanceState.getString("selectedQuantity"));
-                totalAmountTextView.setText(savedInstanceState.getString("totalAmount"));
-            }
+                selectedItemNameTextView.setText(savedInstanceState.getString(getResources().getString(R.string.item_name_saved_instance_key)));
+                selectedQuantityTextView.setText(savedInstanceState.getString(getResources().getString(R.string.item_quantity_saved_instance_key)));
+                totalAmountTextView.setText(savedInstanceState.getString(getResources().getString(R.string.total_amount_saved_instance_key)));
         }
 
         baseAdapter = new ItemsBaseAdapter(((MyApp)getApplication()).getItemsArrayList(),this);
@@ -148,14 +146,15 @@ ItemsBaseAdapter baseAdapter;
                 break;
             case R.id.buyButton:
                 if (selectedItemNameTextView.getText().toString().isEmpty()||selectedQuantityTextView.getText().toString().isEmpty()){
-                    Toast.makeText(this,"All fields are required",Toast.LENGTH_LONG).show();
+                    Toast.makeText(this,R.string.all_fields_required_toast_message,Toast.LENGTH_LONG).show();
                 }else{
                     int q = Integer.parseInt(selectedQuantityTextView.getText().toString());
                     if (q>((MyApp)getApplication()).getItemsArrayList().get(selectedItemIndex).getItemQuantity()){
-                        Toast.makeText(this,"No enough quantity in Stock!!",Toast.LENGTH_LONG).show();
+                        Toast.makeText(this,R.string.out_of_stock_toast_message,Toast.LENGTH_LONG).show();
                     }else{
                         purchase(q);
                         showThankYouAlert();
+                        clearAllFields();
                     }
                 }
                 break;
@@ -166,9 +165,15 @@ ItemsBaseAdapter baseAdapter;
         }
     }
 
+    private void clearAllFields() {
+        selectedItemNameTextView.setText("");
+        selectedQuantityTextView.setText("");
+        totalAmountTextView.setText("");
+    }
+
     private void showThankYouAlert() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Thank You for your purchase");
+        builder.setTitle(R.string.thank_you_toast_message);
         builder.setMessage("Your purchase is "+selectedQuantityTextView.getText()+" "+selectedItemNameTextView.getText()+" for "+totalAmountTextView.getText());
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
@@ -177,9 +182,9 @@ ItemsBaseAdapter baseAdapter;
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("selectedItemName",selectedItemNameTextView.getText().toString());
-        outState.putString("selectedQuantity",selectedQuantityTextView.getText().toString());
-        outState.putString("totalAmount",totalAmountTextView.getText().toString());
+        outState.putString(getResources().getString(R.string.item_name_saved_instance_key),selectedItemNameTextView.getText().toString());
+        outState.putString(getResources().getString(R.string.item_quantity_saved_instance_key),selectedQuantityTextView.getText().toString());
+        outState.putString(getResources().getString(R.string.total_amount_saved_instance_key),totalAmountTextView.getText().toString());
     }
 
     public void setQuantityTextView(Button pressedButton){
@@ -205,7 +210,7 @@ ItemsBaseAdapter baseAdapter;
     }
 
     private void createHistoryObject(String itemName, int purchasedQuantity, double totalPrice) {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern(getResources().getString(R.string.date_format_string));
         LocalDateTime now = LocalDateTime.now();
         PurchaseHistory history = new PurchaseHistory(itemName, purchasedQuantity,totalPrice,dtf.format(now));
         ((MyApp)getApplication()).addToPurchaseHistoryList(history);

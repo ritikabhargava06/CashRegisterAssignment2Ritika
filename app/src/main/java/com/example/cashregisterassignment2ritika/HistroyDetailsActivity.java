@@ -14,7 +14,7 @@ public class HistroyDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_histroy_details);
 
         detailsTextView = findViewById(R.id.historyDetailTextView);
-        int index = getIntent().getExtras().getInt("selectedPosition");
+        int index = getIntent().getExtras().getInt(getResources().getString(R.string.selected_position_extras_key));
         PurchaseHistory selectedHistoryObject = ((MyApp)getApplication()).getPurchaseHistoryArrayList().get(index);
         String detailString = "Product: "+ selectedHistoryObject.getPurchasedItemName()+"\nPrice: "+ selectedHistoryObject.getPurchasedTotalPrice()+"\nPurchase Date: "+ selectedHistoryObject.getDate();
         detailsTextView.setText(detailString);

@@ -24,7 +24,7 @@ public class HistoryListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent detailsIntent = new Intent(HistoryListActivity.this,HistroyDetailsActivity.class);
-                detailsIntent.putExtra("selectedPosition",position);
+                detailsIntent.putExtra(getResources().getString(R.string.selected_position_extras_key),position);
                 startActivity(detailsIntent);
             }
         });

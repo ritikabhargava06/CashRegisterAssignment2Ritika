@@ -29,7 +29,7 @@ public class ItemsBaseAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         int count=0;
-        if( context.getClass() == MainActivity.class){
+        if( context.getClass() == MainActivity.class|| context.getClass() == RestockActivity.class){
             count= itemsList.size();
         }else if (context.getClass() == HistoryListActivity.class){
             count = historyList.size();
@@ -39,7 +39,7 @@ public class ItemsBaseAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        if( context.getClass() == MainActivity.class){
+        if( context.getClass() == MainActivity.class|| context.getClass() == RestockActivity.class){
             return itemsList.get(position);
         }else if (context.getClass() == HistoryListActivity.class){
             return historyList.get(position);
@@ -60,7 +60,7 @@ public class ItemsBaseAdapter extends BaseAdapter {
         TextView itemPriceOrQuantity = itemRowView.findViewById(R.id.itemRowPriceORQuantity);
         TextView itemQuantityOrTotal = itemRowView.findViewById(R.id.itemRowQuantityOrTotal);
 
-       if( context.getClass() == MainActivity.class){
+       if( context.getClass() == MainActivity.class|| context.getClass() == RestockActivity.class){
            itemName.setText(itemsList.get(position).getItemName());
            itemPriceOrQuantity.setText(String.valueOf(itemsList.get(position).getItemPrice()));
            itemQuantityOrTotal.setText(String.valueOf(itemsList.get(position).getItemQuantity()));

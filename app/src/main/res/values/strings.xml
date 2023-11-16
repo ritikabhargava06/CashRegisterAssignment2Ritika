@@ -13,4 +13,18 @@
     <string name="button9_text">9</string>
     <string name="buttonClear_text">C</string>
     <string name="button0_text">0</string>
+    <string name="manager_button_text">MANAGER</string>
+    <string name="buy_button_text">BUY</string>
+    <string name="history_button_text">HISTORY</string>
+    <string name="restock_button_text">RESTOCK</string>
+    <string name="ok_button_text">OK</string>
+    <string name="cancel_button_text">CANCEL</string>
+    <string name="all_fields_required_toast_message">All fields are required</string>
+    <string name="out_of_stock_toast_message">No enough quantity in Stock!!</string>
+    <string name="thank_you_toast_message">Thank You for your purchase</string>
+    <string name="date_format_string">yyyy/MM/dd HH:mm:ss</string>
+    <string name="item_name_saved_instance_key">selectedItemName</string>
+    <string name="item_quantity_saved_instance_key">selectedQuantity</string>
+    <string name="total_amount_saved_instance_key">totalAmount</string>
+    <string name="selected_position_extras_key">selectedPosition</string>
 </resources>

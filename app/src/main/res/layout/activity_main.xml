@@ -22,7 +22,7 @@
         android:id="@+id/managerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="MANAGER"
+        android:text="@string/manager_button_text"
         android:layout_marginEnd="@dimen/margin_20"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/selectedProductTextView"
@@ -42,7 +42,6 @@
         app:layout_constraintStart_toEndOf="@id/quantityTextView"
         android:layout_marginEnd="@dimen/margin_20"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
-
         />
 
     <TextView
@@ -179,7 +178,7 @@
         android:id="@+id/buyButton"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/match_constraint"
-        android:text="BUY"
+        android:text="@string/buy_button_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/numbersTableLayout"
         app:layout_constraintTop_toTopOf="@id/numbersTableLayout"
