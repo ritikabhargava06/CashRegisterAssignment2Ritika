@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Cash Register</string>
+    <string name="manager_panel_name">Manager Panel</string>
+    <string name="purchase_history_activity_name">Purchase History</string>
+    <string name="purchase_details_activity_name">Purchase Details</string>
+    <string name="restock_activity_name">Restock</string>
     <string name="product_type">Product Type</string>
     <string name="total_amount">Total</string>
     <string name="button1_text">1</string>

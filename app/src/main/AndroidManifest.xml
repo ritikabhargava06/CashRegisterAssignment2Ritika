@@ -15,28 +15,32 @@
         tools:targetApi="31">
         <activity
             android:name=".RestockActivity"
-            android:exported="false" >
+            android:exported="false"
+            android:label="@string/restock_activity_name">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ManagerActivity" />
         </activity>
         <activity
             android:name=".HistroyDetailsActivity"
-            android:exported="false">
+            android:exported="false"
+            android:label="@string/purchase_details_activity_name">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".HistoryListActivity" />
         </activity>
         <activity
             android:name=".HistoryListActivity"
-            android:exported="false">
+            android:exported="false"
+            android:label="@string/purchase_history_activity_name">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ManagerActivity" />
         </activity>
         <activity
             android:name=".ManagerActivity"
-            android:exported="false">
+            android:exported="false"
+            android:label="@string/manager_panel_name">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
