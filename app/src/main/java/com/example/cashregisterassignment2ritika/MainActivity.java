@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 ListView itemsListview;
@@ -141,8 +140,8 @@ ItemsBaseAdapter baseAdapter;
                 setTotalAmount();
                 break;
             case R.id.buttonClear:
-                selectedQuantityTextView.setText("");
-                totalAmountTextView.setText("");
+                clearAllFields();
+                isItemSelected=false;
                 break;
             case R.id.buyButton:
                 if (selectedItemNameTextView.getText().toString().isEmpty()||selectedQuantityTextView.getText().toString().isEmpty()){
@@ -151,10 +150,13 @@ ItemsBaseAdapter baseAdapter;
                     int q = Integer.parseInt(selectedQuantityTextView.getText().toString());
                     if (q>((MyApp)getApplication()).getItemsArrayList().get(selectedItemIndex).getItemQuantity()){
                         Toast.makeText(this,R.string.out_of_stock_toast_message,Toast.LENGTH_LONG).show();
+                        selectedQuantityTextView.setText("");
+                        totalAmountTextView.setText("");
                     }else{
                         purchase(q);
                         showThankYouAlert();
                         clearAllFields();
+                        isItemSelected=false;
                     }
                 }
                 break;

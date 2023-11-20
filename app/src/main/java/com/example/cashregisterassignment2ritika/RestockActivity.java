@@ -47,6 +47,7 @@ public class RestockActivity extends AppCompatActivity {
                     updateItemQuantity(restockQuantity);
                     baseAdapter.notifyDataSetChanged();
                     quantityEditText.setText("");
+                    selectedIndex = -1;
                 }
             }
         });
