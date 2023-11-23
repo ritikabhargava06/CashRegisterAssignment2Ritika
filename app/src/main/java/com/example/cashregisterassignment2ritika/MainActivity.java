@@ -1,7 +1,6 @@
 package com.example.cashregisterassignment2ritika;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -174,11 +173,12 @@ ItemsBaseAdapter baseAdapter;
     }
 
     private void showThankYouAlert() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.thank_you_toast_message);
-        builder.setMessage("Your purchase is "+selectedQuantityTextView.getText()+" "+selectedItemNameTextView.getText()+" for "+totalAmountTextView.getText());
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
+        AlertFragment.newInstance(selectedQuantityTextView.getText().toString(),selectedItemNameTextView.getText().toString(),totalAmountTextView.getText().toString()).show(getSupportFragmentManager(),null);
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setTitle(R.string.thank_you_toast_message);
+//        builder.setMessage("Your purchase is "+selectedQuantityTextView.getText()+" "+selectedItemNameTextView.getText()+" for "+totalAmountTextView.getText());
+//        AlertDialog alertDialog = builder.create();
+        //alertDialog.show();
     }
 
     @Override
